@@ -1,22 +1,25 @@
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { Product } from "../../app/models/product";
 interface Props {
-    product: Product[];
+    products: Product[];
 }
-//C1
-const Catalog = (props: Props) => {
-    //C2: remove props
-    // const Catalog = ({products}: Props) => {
+const Catalog = ({ products }: Props) => {
 
     return (
-        <div>
-            <ul>
-                {props.product.map((item) => {
-                    return <li key={item.id}>
-                        <h4>{item.name} - {item.price}</h4>
-                    </li>;
+        <>
+            <List>
+                {products.map((item) => {
+                    return <ListItem key={item.id} >
+                        <ListItemAvatar>
+                            <Avatar src={item.pictureUrl} />
+                        </ListItemAvatar>
+                        <ListItemText>
+                            {item.name}
+                        </ListItemText>
+                    </ListItem >
                 })}
-            </ul>
-        </div>
+            </List>
+        </>
     )
 }
 export default Catalog

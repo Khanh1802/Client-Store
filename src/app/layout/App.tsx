@@ -12,7 +12,7 @@ function App() {
   return (
     <div>
       <h1>Store</h1>
-      <Catalog product={products} />
+      <Catalog products={products} />
     </div>
 
   )
