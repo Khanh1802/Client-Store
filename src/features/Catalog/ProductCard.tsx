@@ -1,6 +1,5 @@
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Card, CardHeader, CardMedia, Button, CardActions, CardContent, Typography } from "@mui/material";
+import { Avatar, Card, CardHeader, CardMedia, Button, CardActions, CardContent, Typography } from "@mui/material";
 import { Product } from "../../app/models/product";
-import { red } from "@mui/material/colors";
 
 interface Props {
     product: Product;
@@ -8,7 +7,7 @@ interface Props {
 const ProductCard = ({ product }: Props) => {
     return (
         <>
-            <Card >
+            <Card  >
                 {/* Create Header */}
                 <CardHeader
                     avatar={
