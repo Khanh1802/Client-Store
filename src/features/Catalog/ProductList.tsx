@@ -1,4 +1,4 @@
-import { List } from "@mui/material"
+import { Grid, List } from "@mui/material"
 import { Product } from "../../app/models/product";
 import ProductCard from "./ProductCard";
 interface Props {
@@ -8,15 +8,21 @@ const ProductList = ({ products }: Props) => {
 
     return (
         <>
-            <List>
+            {/* Khoang cach cac item 8 pixels => 8*4 = 32 pixels*/}
+            <Grid container spacing={2}>
                 {products.map((item) => {
                     return (
+                        // 3 columns of our 12 column grids.
                         <>
-                            <ProductCard key={item.id} product={item} />
+                            {/* take our key and put it up on the grid 
+                            because this is the first element that we're looping over inside here.*/}
+                            <Grid item xs={3} key={item.id}>
+                                <ProductCard product={item} />
+                            </Grid>
                         </>
                     )
                 })}
-            </List>
+            </Grid>
         </>
     )
 }

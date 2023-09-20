@@ -15,7 +15,7 @@ function App() {
     <div>
       <CssBaseline />
       <Header />
-      <Container>
+      <Container >
         <Catalog products={products} />
       </Container>
     </div>
