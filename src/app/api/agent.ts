@@ -16,7 +16,7 @@ const Catalog = {
 }
 
 const TestErrors = {
-    get400Error: () => request.get('buggy/bad-found'),
+    get400Error: () => request.get('buggy/bad-request'),
     get401Error: () => request.get('buggy/unauthorized'),
     get404Error: () => request.get('buggy/not-found'),
     get500Error: () => request.get('buggy/server-error'),
