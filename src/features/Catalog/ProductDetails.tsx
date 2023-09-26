@@ -1,8 +1,9 @@
-import { Divider, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
 
 const ProductDetails = () => {
     //The useParams hook returns an object of key/value pairs of the dynamic params from the current URL which is id
@@ -10,15 +11,15 @@ const ProductDetails = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-        axios.get(`https://localhost:7113/api/Product/${id}`)
-            .then(response => setProduct(response.data))
+        id && agent.Catalog.details(id)
+            .then(response => setProduct(response))
             .catch(error =>                // handle error
                 console.log(error))
             .finally(() => setLoading(false)
                 // always executed
             );
         console.log(product)
-    }, [])
+    }, [id])
     if (loading) {
         return <h3>Loading ...</h3>
     }
