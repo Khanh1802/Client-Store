@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
 axios.defaults.baseURL = 'https://localhost:7113/api/';
+axios.defaults.withCredentials = true;
+
 const responseBody = (response: AxiosResponse) => response.data;
 
 const request = {
@@ -23,8 +25,15 @@ const TestErrors = {
     getValidationError: () => request.get('buggy/validationError'),
 }
 
+const Basket = {
+    basket: () => request.get('basket'),
+    addItem: (productId: string, quantity = 1) => request.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+    deleteItem: (productId: string, quantity = 1) => request.delete(`basket?productId=${productId}&quantity=${quantity}`)
+}
+
 const agent = {
     Catalog,
+    Basket,
     TestErrors
 }
 
