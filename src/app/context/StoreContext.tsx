@@ -27,7 +27,7 @@ export function StoreProvider({ children }: PropsWithChildren<any>) {
         }
 
         const items = [...basket.items];
-        const itemIndex = items.findIndex(item => item.id === productId)
+        const itemIndex = items.findIndex(item => item.productId === productId)
         if (itemIndex >= 0) {
             items[itemIndex].quantity -= quantity;
             if (items[itemIndex].quantity === 0) {

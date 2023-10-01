@@ -6,13 +6,12 @@ import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 
 const BasketPage = () => {
-    debugger;
-    const { basket, setBasket } = useStoreContext();
+    const { basket, setBasket, deleteItem } = useStoreContext();
     const [loading, setLoading] = useState(false);
     const handleDeleteBasketItem = (productId: string, quantity: number) => {
         setLoading(true)
         agent.Basket.deleteItem(productId, quantity)
-            .then(basket => setBasket(basket))
+            .then(() => deleteItem(productId, quantity))
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
     }
