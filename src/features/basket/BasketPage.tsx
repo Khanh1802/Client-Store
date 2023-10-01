@@ -1,20 +1,11 @@
-import { useEffect, useState } from "react"
-import { Basket } from "../../app/models/basket";
 import agent from "../../app/api/agent";
-import { CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { useStoreContext } from "../../app/context/StoreContext";
 
 const BasketPage = () => {
-    const [loading, setLoading] = useState(true);
-    const [basket, setBasket] = useState<Basket | null>(null);
 
-    useEffect(() => {
-        agent.Basket.basket()
-            .then(data => setBasket(data))
-            .catch(error => console.log(error))
-            .finally(() => setLoading(false))
-    }, [])
-
+    const { basket } = useStoreContext();
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -36,32 +27,9 @@ const BasketPage = () => {
         },
     }));
 
-    const handleDeleteItem = (productId: string, quantity: number) => {
-        setLoading(true);
-        try {
-            agent.Basket.deleteItem(productId, quantity);
-        }
-        catch (error) {
-            console.log(error)
-        }
-        finally {
-            setLoading(false)
-        }
-    }
-
-    if (loading) {
+    if (!basket) {
         return (
-            <>
-                <CircularProgress />
-            </>
-        )
-    }
-
-    if (basket === null) {
-        return (
-            <>
-                <Typography variant="h3">Basket is empty</Typography>
-            </>
+            <Typography variant="h3">Basket is empty</Typography>
         )
     }
 
@@ -90,7 +58,7 @@ const BasketPage = () => {
                             <StyledTableCell align="right">
                                 ${(basketItem.price * basketItem.quantity / 100).toFixed(2)}
                             </StyledTableCell><StyledTableCell align="right">
-                                <IconButton onClick={() => handleDeleteItem(basketItem.productId, basketItem.quantity)}>
+                                <IconButton >
                                     <Delete fontSize="large" />
                                 </IconButton>
                             </StyledTableCell>
