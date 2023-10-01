@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Basket } from "../../app/models/basket";
 import agent from "../../app/api/agent";
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
+import { CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
 const BasketPage = () => {
@@ -52,7 +52,7 @@ const BasketPage = () => {
     if (loading) {
         return (
             <>
-                <Typography variant="h3">Is loading ...</Typography>
+                <CircularProgress />
             </>
         )
     }
