@@ -32,6 +32,7 @@ interface Props {
     handleChangeModeDark: () => void;
 }
 export default function Header({ darkMode, handleChangeModeDark }: Props) {
+    debugger;
     const { basket } = useStoreContext();
     const countItem = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
     return (
