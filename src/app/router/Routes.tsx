@@ -6,6 +6,7 @@ import ProductDetails from "../../features/catalog/ProductDetails";
 import AboutPage from "../../features/about/AboutPage";
 import ContactPage from "../../features/contact/ContactPage";
 import BasketPage from "../../features/basket/BasketPage";
+import CheckoutPage from "../checkout/CheckoutPage";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
             { path: '/about', element: <AboutPage /> },
             { path: '/contact', element: <ContactPage /> },
             // /basket => route take from component={Link} to={`/basket`}>
-            { path: '/basket', element: <BasketPage /> }
+            { path: '/basket', element: <BasketPage /> },
+            { path: '/checkout', element: <CheckoutPage /> }
         ],
     },
 ]);
