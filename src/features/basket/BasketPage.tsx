@@ -1,9 +1,10 @@
 import agent from "../../app/api/agent";
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
 import { Add, Delete, Remove } from "@mui/icons-material";
 import { useStoreContext } from "../../app/context/StoreContext";
 import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
+import BasketSummary from "./BasketSummary";
 
 const BasketPage = () => {
     const { basket, setBasket, deleteItem } = useStoreContext();
@@ -50,50 +51,59 @@ const BasketPage = () => {
     }
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell>Product </StyledTableCell>
-                        <StyledTableCell align="right">Price</StyledTableCell>
-                        <StyledTableCell align="center">Quantity</StyledTableCell>
-                        <StyledTableCell align="right">Brand</StyledTableCell>
-                        <StyledTableCell align="right">Total price</StyledTableCell>
-                        <StyledTableCell align="right"></StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {basket.items.map(basketItem => (
-                        <StyledTableRow key={basketItem.id}>
-                            <StyledTableCell component="th" scope="row">
-                                <Box display='flex' alignItems='center'>
-                                    <img src={basketItem.pictureUrl} alt={basketItem.name} style={{ height: 50, marginRight: 20 }}></img>
-                                    <span>{basketItem.name}</span>
-                                </Box>
-                            </StyledTableCell>
-                            <StyledTableCell align="right">${(basketItem.price / 100).toFixed(2)}</StyledTableCell>
-                            <StyledTableCell align="center">
-                                <LoadingButton loading={loading} color="error">
-                                    <Remove onClick={() => handleDeleteBasketItem(basketItem.productId, 1)} />
-                                </LoadingButton>
-                                {basketItem.quantity}
-                                <LoadingButton loading={loading} color="secondary">
-                                    <Add onClick={() => handleAddBasketItem(basketItem.productId)} />
-                                </LoadingButton>
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{basketItem.brand}</StyledTableCell>
-                            <StyledTableCell align="right">
-                                ${(basketItem.price * basketItem.quantity / 100).toFixed(2)}
-                            </StyledTableCell><StyledTableCell align="right">
-                                <LoadingButton loading={loading} >
-                                    <Delete fontSize="large" onClick={() => handleDeleteBasketItem(basketItem.productId, basketItem.quantity)} />
-                                </LoadingButton>
-                            </StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Product </StyledTableCell>
+                            <StyledTableCell align="right">Price</StyledTableCell>
+                            <StyledTableCell align="center">Quantity</StyledTableCell>
+                            <StyledTableCell align="right">Brand</StyledTableCell>
+                            <StyledTableCell align="right">Total price</StyledTableCell>
+                            <StyledTableCell align="right"></StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {basket.items.map(basketItem => (
+                            <StyledTableRow key={basketItem.id}>
+                                <StyledTableCell component="th" scope="row">
+                                    <Box display='flex' alignItems='center'>
+                                        <img src={basketItem.pictureUrl} alt={basketItem.name} style={{ height: 50, marginRight: 20 }}></img>
+                                        <span>{basketItem.name}</span>
+                                    </Box>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">${(basketItem.price / 100).toFixed(2)}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <LoadingButton loading={loading} color="error">
+                                        <Remove onClick={() => handleDeleteBasketItem(basketItem.productId, 1)} />
+                                    </LoadingButton>
+                                    {basketItem.quantity}
+                                    <LoadingButton loading={loading} color="secondary">
+                                        <Add onClick={() => handleAddBasketItem(basketItem.productId)} />
+                                    </LoadingButton>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">{basketItem.brand}</StyledTableCell>
+                                <StyledTableCell align="right">
+                                    ${(basketItem.price * basketItem.quantity / 100).toFixed(2)}
+                                </StyledTableCell><StyledTableCell align="right">
+                                    <LoadingButton loading={loading} >
+                                        <Delete fontSize="large" onClick={() => handleDeleteBasketItem(basketItem.productId, basketItem.quantity)} />
+                                    </LoadingButton>
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Grid container >
+                <Grid xs={6} />
+                <Grid xs={6}>
+                    <BasketSummary />
+                </Grid>
+            </Grid>
+        </>
     );
 }
 
