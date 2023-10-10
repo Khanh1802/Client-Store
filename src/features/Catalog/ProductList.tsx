@@ -15,7 +15,7 @@ const ProductList = ({ products }: Props) => {
                     // 3 columns of our 12 column grids.
                     /* take our key and put it up on the grid 
                             because this is the first element that we're looping over inside here.*/
-                    < Grid item xs={3} key={item.id} >
+                    < Grid item xs={4} key={item.id} >
                         <ProductCard product={item} />
                     </Grid>
                 ))}

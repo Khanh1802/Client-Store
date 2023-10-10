@@ -8,3 +8,17 @@ export interface Product {
     brand: string
     quantityInStock: number
 }
+
+export interface FilterProduct {
+    brands: string[],
+    types: string[],
+}
+
+export interface ProductParam {
+    orderBy: string,
+    search?: string,
+    brands?: string[],
+    types?: string[],
+    pageNumber: number,
+    pageSize: number
+}
