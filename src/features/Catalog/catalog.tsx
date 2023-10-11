@@ -5,7 +5,7 @@ import agent from "../../app/api/agent";
 import { Box, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 
 const sortOptions = [
-    { value: "name", label: "Name" },
+    { value: "", label: "Name" },
     { value: "priceDesc", label: "Price - Hight to low" },
     { value: "price", label: "Price - Low to hight" },
 ]
@@ -42,14 +42,18 @@ const Catalog = () => {
     const [filterProduct, setFilterProduct] = useState<FilterProduct>();
     const [loading, setLoading] = useState(false);
     const handleSearchProduct = (value: string) => {
-        debugger;
         setLoading(true);
         productParams.search = value;
         setProductParams(productParams)
     }
+    const handleSortProduct = (event: any) => {
+        debugger
+        setLoading(true);
+        productParams.orderBy = event.target.value != null ? event.target.value : null;
+        setProductParams(productParams)
+    }
 
     useEffect(() => {
-        debugger;
         setLoading(false);
         const params = getAxiosParams(productParams)
         //api for the get request   
@@ -78,9 +82,18 @@ const Catalog = () => {
 
                     <Paper sx={{ mb: 2, p: 2 }}>
                         <FormControl >
-                            <RadioGroup>
+                            <RadioGroup
+                                value={productParams.orderBy}
+                                onChange={e => handleSortProduct(e)}
+                            >
                                 {sortOptions.map((item, index) => (
-                                    <FormControlLabel value={item.value} control={<Radio />} label={item.label} key={index} />
+                                    <FormControlLabel
+                                        control={<Radio />}
+                                        label={item.label}
+                                        key={index}
+                                        value={item.value}
+
+                                    />
                                 ))}
                             </RadioGroup>
                         </FormControl>
@@ -97,7 +110,11 @@ const Catalog = () => {
                     <Paper sx={{ mb: 2, p: 2 }}>
                         <FormGroup>
                             {filterProduct?.types.map((item, index) => (
-                                <FormControlLabel control={<Checkbox />} label={item} key={index} />
+                                <FormControlLabel
+                                    control={<Checkbox />}
+                                    label={item}
+                                    key={index}
+                                />
                             ))}
                         </FormGroup>
                     </Paper>
