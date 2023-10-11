@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { FilterProduct, Product } from "../../app/models/product";
+import { FilterProduct, Product, ProductParam } from "../../app/models/product";
 import ProductList from "./ProductList";
 import agent from "../../app/api/agent";
 import { Box, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material";
-
 
 const sortOptions = [
     { value: "name", label: "Name" },
@@ -11,12 +10,41 @@ const sortOptions = [
     { value: "price", label: "Price - Low to hight" },
 ]
 
+function getAxiosParams(productParams: ProductParam) {
+    const params = new URLSearchParams();
+    params.append('OrderBy', productParams.orderBy);
+    params.append('PageNumber', productParams.pageNumber.toString());
+    params.append('PageSize', productParams.pageSize.toString());
+    if (productParams.search) {
+        params.append('Search', productParams.search);
+    }
+    if (productParams.brands) {
+        params.append('Brands', productParams.brands.toString());
+    }
+    if (productParams.types) {
+        params.append('Types', productParams.types.toString());
+    }
+    return params;
+}
+
+function initParams() {
+    return {
+        orderBy: "",
+        pageNumber: 1,
+        pageSize: 5
+    }
+}
+
 const Catalog = () => {
+    debugger;
+    const productParams = initParams();
     const [products, setProducts] = useState<Product[]>([]);
     const [filterProduct, setFilterProduct] = useState<FilterProduct>();
+
     useEffect(() => {
-        //api for the get request      
-        agent.Catalog.list().then(products => setProducts(products));
+        const params = getAxiosParams(productParams)
+        //api for the get request   
+        agent.Catalog.list(params).then(products => setProducts(products));
         agent.Catalog.filterBrands().then(filterProduct => setFilterProduct(filterProduct));
     }, [])
     return (
@@ -65,7 +93,7 @@ const Catalog = () => {
                 <Grid item xs={9}>
                     <Box display='flex' justifyContent='space-between' alignItems='center'>
                         <Typography>
-                            Displaying 1-6 of 20 items
+                            Displaying 1-5 of 20 items
                         </Typography>
                         <Pagination color="secondary"
                             size="large"
