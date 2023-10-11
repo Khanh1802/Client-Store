@@ -6,15 +6,15 @@ axios.defaults.withCredentials = true;
 const responseBody = (response: AxiosResponse) => response.data;
 
 const request = {
-    get: (url: string) => axios.get(url).then(responseBody),
+    get: (url: string, params?: URLSearchParams) => axios.get(url, { params }).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
 }
-
 const Catalog = {
-    list: () => request.get('product'),
-    details: (id: string) => request.get(`product/${id}`)
+    list: (params: URLSearchParams) => request.get('product', params),
+    details: (id: string) => request.get(`product/${id}`),
+    filterBrands: () => request.get('product/filters')
 }
 
 const TestErrors = {
