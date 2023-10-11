@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FilterProduct, Product, ProductParam } from "../../app/models/product";
 import ProductList from "./ProductList";
 import agent from "../../app/api/agent";
-import { Box, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 
 const sortOptions = [
     { value: "name", label: "Name" },
@@ -28,25 +28,40 @@ function getAxiosParams(productParams: ProductParam) {
 }
 
 function initParams() {
-    return {
+    const productParams: ProductParam = {
         orderBy: "",
         pageNumber: 1,
         pageSize: 5
     }
+    return productParams;
 }
 
 const Catalog = () => {
-    debugger;
-    const productParams = initParams();
     const [products, setProducts] = useState<Product[]>([]);
+    const [productParams, setProductParams] = useState<ProductParam>(initParams());
     const [filterProduct, setFilterProduct] = useState<FilterProduct>();
+    const [loading, setLoading] = useState(false);
+    const handleSearchProduct = (value: string) => {
+        debugger;
+        setLoading(true);
+        productParams.search = value;
+        setProductParams(productParams)
+    }
 
     useEffect(() => {
+        debugger;
+        setLoading(false);
         const params = getAxiosParams(productParams)
         //api for the get request   
         agent.Catalog.list(params).then(products => setProducts(products));
         agent.Catalog.filterBrands().then(filterProduct => setFilterProduct(filterProduct));
-    }, [])
+    }, [loading])
+
+    if (loading) {
+        return (
+            <CircularProgress />
+        )
+    }
     return (
         <>
             <Grid container spacing={4}>
@@ -56,6 +71,8 @@ const Catalog = () => {
                             label="Search products"
                             variant="outlined"
                             fullWidth
+                            value={productParams?.search}
+                            onChange={e => handleSearchProduct(e.target.value)}
                         />
                     </Paper>
 
