@@ -40,6 +40,7 @@ const Account = {
 const agent = {
     Catalog,
     Basket,
+    Account,
     TestErrors
 }
 
